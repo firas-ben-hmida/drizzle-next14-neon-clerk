@@ -2,7 +2,7 @@ export type todoType = {
   id: number;
   text: string;
   done: boolean;
-  userId: number;
+  userId: number | null;
 };
 
 export type UserType = {
@@ -13,6 +13,6 @@ export type UserType = {
   firstName: string;
   lastName: string;
   photo: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 };

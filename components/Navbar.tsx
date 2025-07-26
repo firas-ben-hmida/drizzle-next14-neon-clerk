@@ -1,10 +1,9 @@
 "use client";
-import { SignOutButton, UserButton, useClerk, useUser } from "@clerk/nextjs";
+import { SignOutButton, UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 const Navbar = () => {
-  const { isSignedIn, user } = useUser();
-  const { signOut } = useClerk();
+  const { isSignedIn } = useUser();
   return (
     <nav className="border-b h-[8vh] flex items-center">
       <div className="container flex items-center justify-between">
