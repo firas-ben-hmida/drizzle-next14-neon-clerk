@@ -34,7 +34,8 @@ const Todos: FC<Props> = ({ todos , user }) => {
     setTodoItems((prev) =>
       prev.map((todo) => (todo.id === id ? { ...todo, done: !todo.done } : todo))
     );
-    toggleTodo(id);
+    const todo = todoItems.find(t => t.id === id);
+    toggleTodo(id, !todo?.done);
   };
 
   // Function to delete a todo item
