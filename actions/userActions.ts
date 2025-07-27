@@ -11,28 +11,33 @@ export const getAllUsers = async () => {
 };
 
 export const getUser = async (userId: string) => {
-  const user = await db.query.users.findMany({
-    where: (users, { eq }) => eq(users.clerkId, userId),
-    with: {
-      todos: true,
-    },
-  });
+  const user = await db
+    .select()
+    .from(users)
+    .where(eq(users.clerkId, userId));
 
   return user;
 };
 
-export const addUser = async (user: any) => {
+export const addUser = async (user: {
+  clerkId: string;
+  email: string;
+  name: string;
+  firstName: string;
+  lastName: string;
+  photo: string;
+}) => {
   await db
     .insert(users)
     .values({
-      clerkId: user?.clerkId,
-      email: user?.email,
-      name: user?.name!,
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      photo: user?.photo,
+      clerkId: user.clerkId,
+      email: user.email,
+      name: user.name,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      photo: user.photo,
     })
-    .returning({ clerkClientId: users?.clerkId });
+    .returning({ clerkClientId: users.clerkId });
 
-  // revalidatePath("/");
+  revalidatePath("/");
 };
