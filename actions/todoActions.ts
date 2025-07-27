@@ -6,22 +6,18 @@ import { db } from "@/db/drizzle";
 import { todos } from "@/db/schema";
 
 export const getData = async (userId: number) => {
+  // const data = await db.select().from(todos);
   const data = await db.select().from(todos).where(eq(todos?.userId, userId));
   return data;
 };
 
 export const addTodo = async (id: number, text: string, userId: number) => {
-  try {
-    await db.insert(todos).values({
-      id,
-      text: text,
-      userId,
-    });
-    revalidatePath("/");
-  } catch (error) {
-    console.error('Erreur lors de l\'ajout du todo:', error);
-    throw error;
-  }
+  await db.insert(todos).values({
+    id,
+    text: text,
+    userId,
+  });
+  revalidatePath("/");
 };
 
 export const deleteTodo = async (id: number) => {
