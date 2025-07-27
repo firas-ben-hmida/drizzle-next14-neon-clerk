@@ -10,6 +10,7 @@ export default async function Home() {
   
   const fetchedData = await getUser(user?.id);
   console.log(fetchedData);
+
   if (!fetchedData || fetchedData.length === 0) {
     try {
       await addUser({
@@ -20,11 +21,13 @@ export default async function Home() {
         lastName: user.lastName || '',
         photo: user.imageUrl || '',
       });
+      
       const newFetchedData = await getUser(user?.id);
       if (newFetchedData && newFetchedData.length > 0) {
+        const todos = await getData(newFetchedData[0].id);
         return (
           <main className="flex items-center justify-between">
-            <Todos todos={newFetchedData[0].todos} user={newFetchedData[0] as UserType} />
+            <Todos todos={todos} user={newFetchedData[0] as UserType} />
           </main>
         );
       }
@@ -43,9 +46,11 @@ export default async function Home() {
     );
   }
 
+  const todos = await getData(fetchedData[0].id);
+
   return (
     <main className="flex items-center justify-between">
-      <Todos todos={fetchedData[0].todos} user={fetchedData[0] as UserType} />
+      <Todos todos={todos} user={fetchedData[0] as UserType} />
     </main>
   );
 }
