@@ -10,10 +10,7 @@ export default async function Home() {
   
   const fetchedData = await getUser(user?.id);
   console.log(fetchedData);
-
-  // Si l'utilisateur n'existe pas encore dans la base de données
   if (!fetchedData || fetchedData.length === 0) {
-    // Créer l'utilisateur manuellement pour le test
     try {
       await addUser({
         clerkId: user.id,
@@ -23,8 +20,6 @@ export default async function Home() {
         lastName: user.lastName || '',
         photo: user.imageUrl || '',
       });
-      
-      // Recharger les données
       const newFetchedData = await getUser(user?.id);
       if (newFetchedData && newFetchedData.length > 0) {
         return (
