@@ -28,23 +28,38 @@ const Todos: FC<Props> = ({ todos , user }) => {
     }
   };
 
-  const changeTodoText = (id: number, text: string) => {
-    setTodoItems((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, text } : todo))
-    );
-    editTodo(id, text);
+  const changeTodoText = async (id: number, text: string) => {
+    try {
+      setTodoItems((prev) =>
+        prev.map((todo) => (todo.id === id ? { ...todo, text } : todo))
+      );
+      await editTodo(id, text);
+    } catch (error) {
+      console.error('Erreur lors de la modification du todo:', error);
+      alert('Erreur lors de la modification du todo. Veuillez réessayer.');
+    }
   };
 
-  const toggleIsTodoDone = (id: number, done: boolean) => {
-    setTodoItems((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, done } : todo))
-    );
-    toggleTodo(id, done);
+  const toggleIsTodoDone = async (id: number, done: boolean) => {
+    try {
+      setTodoItems((prev) =>
+        prev.map((todo) => (todo.id === id ? { ...todo, done } : todo))
+      );
+      await toggleTodo(id, done);
+    } catch (error) {
+      console.error('Erreur lors du toggle du todo:', error);
+      alert('Erreur lors du toggle du todo. Veuillez réessayer.');
+    }
   };
 
-  const deleteTodoItem = (id: number) => {
-    setTodoItems((prev) => prev.filter((todo) => todo.id !== id));
-    deleteTodo(id);
+  const deleteTodoItem = async (id: number) => {
+    try {
+      setTodoItems((prev) => prev.filter((todo) => todo.id !== id));
+      await deleteTodo(id);
+    } catch (error) {
+      console.error('Erreur lors de la suppression du todo:', error);
+      alert('Erreur lors de la suppression du todo. Veuillez réessayer.');
+    }
   };
 
   return (
