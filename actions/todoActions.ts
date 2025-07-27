@@ -11,9 +11,8 @@ export const getData = async (userId: number) => {
   return data;
 };
 
-export const addTodo = async (id: number, text: string, userId: number) => {
+export const addTodo = async (text: string, userId: number) => {
   await db.insert(todos).values({
-    id,
     text: text,
     userId,
   });

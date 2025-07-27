@@ -22,7 +22,7 @@ export const users = pgTable("users", {
 });
 
 export const todos = pgTable("todos", {
-  id: bigint("id", { mode: "number" }).primaryKey(),
+  id: serial("id").primaryKey(),
   text: text("text").notNull(),
   done: boolean("done").default(false).notNull(),
   userId: integer("user_id")

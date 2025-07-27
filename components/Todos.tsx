@@ -19,9 +19,9 @@ const Todos: FC<Props> = ({ todos , user }) => {
         throw new Error('ID utilisateur manquant');
       }
       
-      const id = (todoItems.at(-1)?.id || 0) + 1;
-      await addTodo(id, text, user.id);
-      setTodoItems((prev) => [...prev, { id: id, text, done: false, userId: user.id }]);
+      await addTodo(text, user.id);
+      const newId = (todoItems.at(-1)?.id || 0) + 1;
+      setTodoItems((prev) => [...prev, { id: newId, text, done: false, userId: user.id }]);
     } catch (error) {
       console.error('Erreur lors de la création du todo:', error);
       alert('Erreur lors de la création du todo. Veuillez réessayer.');

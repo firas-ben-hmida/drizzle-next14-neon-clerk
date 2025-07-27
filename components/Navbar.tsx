@@ -14,9 +14,9 @@ const Navbar = () => {
       <div className="flex items-center gap-x-5">
         {isSignedIn ? (
           <>
-            <button className="w-[100px] bg-gray-200 p-2 rounded-md text-center">
+            <div className="w-[100px] bg-gray-200 p-2 rounded-md text-center">
               <SignOutButton />
-            </button>
+            </div>
             <UserButton />
           </>
         ) : (
