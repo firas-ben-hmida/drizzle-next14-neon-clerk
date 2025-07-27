@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { todoType, UserType } from "@/types/todoType";
 import Todo from "./Todo";
 import AddTodo from "./AddTodo";
-import { addTodo, deleteTodo, editTodo, toggleTodo, getData } from "@/actions/todoActions";
+import { addTodo, deleteTodo, editTodo, toggleTodo } from "@/actions/todoActions";
 
 interface Props {
   todos: todoType[];
@@ -14,23 +14,13 @@ const Todos: FC<Props> = ({ todos , user }) => {
   const [todoItems, setTodoItems] = useState<todoType[]>(todos);
 
   const createTodo = async (text: string) => {
-    if (!user?.id) {
-      alert('Erreur: ID utilisateur manquant');
-      return;
-    }
-    
-    const id = Date.now();
-    const newTodo = { id, text, done: false, userId: user.id };
-    
-    setTodoItems((prev) => [...prev, newTodo]);
-    
     try {
-      await addTodo(id, text, user.id);
-      console.log('Todo créé avec succès');
+      const id = (todoItems.at(-1)?.id || 0) + 1;
+      await addTodo(id, text, user?.id);
+      setTodoItems((prev) => [...prev, { id: id, text, done: false, userId: user?.id }]);
     } catch (error) {
       console.error('Erreur lors de la création du todo:', error);
-      setTodoItems((prev) => prev.filter(todo => todo.id !== id));
-      alert('Erreur lors de la création du todo');
+      alert('Erreur lors de la création du todo. Veuillez réessayer.');
     }
   };
 
@@ -40,6 +30,7 @@ const Todos: FC<Props> = ({ todos , user }) => {
     );
     editTodo(id, text);
   };
+
   const toggleIsTodoDone = (id: number, done: boolean) => {
     setTodoItems((prev) =>
       prev.map((todo) => (todo.id === id ? { ...todo, done } : todo))
